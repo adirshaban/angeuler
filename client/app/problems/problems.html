@@ -1,0 +1,19 @@
+<div class="container problems">
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="problem in problems | startFrom:currentPage*pageSize | limitTo:pageSize"
+        ui-sref="shell.problem({id: problem.questionId})">
+      <strong>{{problem.questionId}} {{problem.title }}</strong><br>
+      <span class="text-muted">Solved by {{ problem.solvedBy}} peoples</span>
+    </li>
+  </ul>
+  <div class="btn-center">
+    <button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+      Previous
+    </button>
+    {{currentPage+1}}/{{numberOfPages()}}
+    <button class="btn btn-primary" ng-disabled="currentPage >= problems.length/pageSize - 1"
+            ng-click="currentPage=currentPage+1">
+      Next
+    </button>
+  </div>
+</div>
