@@ -11,3 +11,4 @@ var ProblemSchema = new Schema({
   answer: Number
 });
 
+module.exports = mongoose.model('Problem', ProblemSchema);

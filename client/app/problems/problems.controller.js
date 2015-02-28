@@ -10,7 +10,7 @@ angular.module('angeulerApp')
       return Math.ceil($scope.problems.length/$scope.pageSize);
     };
 
-    Problem.query()
+    Problem.page({page: $scope.currentPage})
       .$promise
       .then(function (problems) {
         $scope.problems = problems;
