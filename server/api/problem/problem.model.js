@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 var ProblemSchema = new Schema({
   questionId: Number,
@@ -11,6 +12,6 @@ var ProblemSchema = new Schema({
   answer: Number
 });
 
-ProblemSchema.plugin(require('mongoose-paginate'));
+ProblemSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Problem', ProblemSchema);
