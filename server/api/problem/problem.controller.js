@@ -2,25 +2,26 @@
 
 var _ = require('lodash');
 var Problem = require('./problem.model');
+var paginate = require('express-paginate');
 
 // Get list of problems
 exports.index = function (req, res) {
-  Problem.find(function (err, problems) {
-    if (err) {
-      return handleError(res, err);
-    }
-    return res.json(200, problems);
-  });
-};
 
-// Get list og problems by page
-exports.page = function (req, res) {
-  var offset = (req.params.page - 1) * req.params.pageSize;
-  Problem.where('questionId').gte(offset).lte(offset + req.params.pageSize).find(function (err, problems) {
-    if (err) {
-      return handleError(res, err);
-    }
-    return res.json(200, problems);
+  Problem.paginate({}, req.query.page, req.query.limit, function(err, pageCount, problems, itemCount) {
+
+    if (err) return handleError(res, err);
+
+    res.format({
+      json: function() {
+        // inspired by Stripe's API response for list objects
+        res.json({
+          has_more: paginate.hasNextPages(req)(pageCount),
+          pageCount: pageCount,
+          data: problems
+        });
+      }
+    });
+
   });
 };
 

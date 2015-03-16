@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var paginate = require('express-paginate');
 var controller = require('./problem.controller');
 
 var router = express.Router();
@@ -11,7 +12,5 @@ router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
-router.params('page', controller.page);
-
 
 module.exports = router;

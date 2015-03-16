@@ -3,19 +3,22 @@
 angular.module('angeulerApp')
   .controller('ProblemsCtrl', function ($scope, $http, socket, Problem) {
     $scope.problems = [];
-    $scope.currentPage = 0;
+    $scope.currentPage = 1;
     $scope.pageSize = 5;
 
-    $scope.numberOfPages=function(){
-      return Math.ceil($scope.problems.length/$scope.pageSize);
+    $scope.changePage = function (pageNumber) {
+      Problem.get({page: pageNumber, limit: $scope.pageSize})
+        .$promise
+        .then(function (res) {
+          $scope.problems =  res.data;
+          $scope.pageCount = res.pageCount;
+          socket.syncUpdates('problem', $scope.problems);
+        });
+
+      $scope.currentPage = pageNumber;
     };
 
-    Problem.page({page: $scope.currentPage})
-      .$promise
-      .then(function (problems) {
-        $scope.problems = problems;
-        socket.syncUpdates('problem', $scope.problems);
-      });
+    $scope.changePage($scope.currentPage);
 
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('problem');
