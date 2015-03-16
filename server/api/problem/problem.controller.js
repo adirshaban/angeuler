@@ -2,20 +2,17 @@
 
 var _ = require('lodash');
 var Problem = require('./problem.model');
-var paginate = require('express-paginate');
 
 // Get list of problems
 exports.index = function (req, res) {
 
-  Problem.paginate({}, req.query.page, req.query.limit, function(err, pageCount, problems, itemCount) {
+  Problem.paginate({}, req.query.page, req.query.limit, function(err, pageCount, problems) {
 
     if (err) return handleError(res, err);
 
     res.format({
       json: function() {
-        // inspired by Stripe's API response for list objects
         res.json({
-          has_more: paginate.hasNextPages(req)(pageCount),
           pageCount: pageCount,
           data: problems
         });

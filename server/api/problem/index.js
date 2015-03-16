@@ -1,7 +1,6 @@
 'use strict';
 
 var express = require('express');
-var paginate = require('express-paginate');
 var controller = require('./problem.controller');
 
 var router = express.Router();
