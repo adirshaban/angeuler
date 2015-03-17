@@ -20,4 +20,20 @@
   .list-pagination{
     text-align: center;
   }
+  .list-group-item {
+    transition: all 0.2s ease-out;
+   span {
+     transition: all 0.2s ease-out;
+   }
+    &:hover {
+      transform: translate(-10px, 0px);
+      height: 120%;
+      color: #ffffff;
+      cursor: pointer;
+      background-color: #428bca;
+      span {
+      color: #ffffff;
+    }
+    }
+  }
 }

@@ -3,6 +3,23 @@
     <div class="col-md-12">
       <div class="question col-md-8 col-sm-offset-2">
         {{problem.question}}
+        <br/>
+
+        <div class="flex" ng-show="isLoggedIn()">
+          Answer:
+          <form class="form flex" name="form" ng-submit="checkAnswer()">
+            <input type="text" name="answer" class="form-control txt-shit" ng-model="answer" required>
+            <button class="btn check-answer " type="submit">
+              Check answer
+            </button>
+          </form>
+        </div>
+        <div ng-hide="isLoggedIn()">
+          <p>
+            Want to answer and take part of this fun?
+            <a href="/signup">Sign up now!</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>

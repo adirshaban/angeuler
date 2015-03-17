@@ -50,7 +50,7 @@ exports.update = function (req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Problem.findById(req.params.id, function (err, problem) {
+  Problem.where({questionId: req.params.id}).findOne(function (err, problem) {
     if (err) {
       return handleError(res, err);
     }
