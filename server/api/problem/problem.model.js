@@ -8,7 +8,7 @@ var ProblemSchema = new Schema({
   questionId: Number,
   title: String,
   question: String,
-  solvedBy: Number,
+  solvers: [{ type: Schema.ObjectId, ref: 'User' }],
   answer: Number
 });
 

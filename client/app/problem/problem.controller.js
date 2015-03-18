@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angeulerApp')
-  .controller('ProblemCtrl', function ($scope, $stateParams, Problem, Auth, $http) {
+  .controller('ProblemCtrl', function ($scope, $stateParams, Problem, Auth) {
 
     $scope.answer = "";
     $scope.isLoggedIn = Auth.isLoggedIn;
@@ -10,10 +10,8 @@ angular.module('angeulerApp')
       $scope.isAnswered = true;
       if ($scope.answer == $scope.problem.answer) {
         $scope.result = true;
-
-        //TODO: send update to the server
         $scope.problem.solvedBy++;
-        $http.put('/api/problems/'+ $scope.problem.questionId, $scope.problem);
+        $scope.problem.$update({id:$scope.problem.questionId }, $scope.problem);
       }
     };
 

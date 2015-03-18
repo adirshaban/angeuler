@@ -5,8 +5,8 @@
 
 'use strict';
 
-var Problem = require('../api/problem/problem.model')
-var User = require('../api/user/user.model')
+var Problem = require('../api/problem/problem.model');
+var User = require('../api/user/user.model');
 
 Problem.find({}).remove(function() {
   Problem.create({
