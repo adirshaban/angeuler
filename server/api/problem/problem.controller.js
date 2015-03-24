@@ -9,6 +9,11 @@ exports.index = function (req, res) {
   Problem.paginate({}, req.query.page, req.query.limit, function(err, pageCount, problems) {
 
     if (err) return handleError(res, err);
+    problems = _.map(problems, function(problem){
+      problem._doc.solvedBy = problem.solvers.length;
+      delete problem._doc.solvers;
+      return problem;
+    });
 
     res.format({
       json: function() {
@@ -57,11 +62,14 @@ exports.update = function (req, res) {
     if (!problem) {
       return res.send(404);
     }
+
     var updated = _.merge(problem, req.body);
     updated.save(function (err) {
       if (err) {
         return handleError(res, err);
       }
+      problem._doc.solvedBy = problem.solvers.length;
+      delete problem._doc.solvers;
       return res.json(200, problem);
     });
   });

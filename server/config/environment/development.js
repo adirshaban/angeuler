@@ -8,6 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/angeuler-dev'
   },
 
-  seedUser: true,
-  seedProblems: true
+  seed: true
 };
