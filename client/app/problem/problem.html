@@ -5,16 +5,15 @@
         {{problem.question}}
         <div class="flex answer-form" ng-show="isLoggedIn()">
           Answer:
-          <form class="form flex" name="form" ng-submit="checkAnswer()">
+          <form class="form flex" name="form" ng-submit="checkAnswer()" ng-hide="isAlreadyAnswered()">
             <input type="text" name="answer" class="form-control txt-shit" ng-model="answer" required>
             <button class="btn check-answer " type="submit">
               Check answer
             </button>
-
-            <p>
-              {{msg}}
-            </p>
           </form>
+        </div>
+        <div ng-show="isAlreadyAnswered()">
+          <p>{{msg}}</p>
         </div>
         <div ng-hide="isLoggedIn()">
           <p>

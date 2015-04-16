@@ -3,16 +3,19 @@
 angular.module('angeulerApp')
   .controller('ProblemCtrl', function ($scope, $stateParams, Problem, Auth) {
 
-    Problem.get({id: $stateParams.id})
-      .$promise
-      .then(function (problem) {
-        $scope.problem = problem;
-      });
-
+    $scope.problem = Problem.get({id: $stateParams.id});
     var currentUser = Auth.getCurrentUser();
 
     $scope.answer = "";
     $scope.isLoggedIn = Auth.isLoggedIn;
+    $scope.msg = "You have already answered this question!";
+
+    $scope.isAlreadyAnswered = function () {
+      if ($scope.problem.solvers.indexOf(currentUser._id) != -1) {
+        return true;
+      }
+      return false;
+    };
 
     $scope.checkAnswer = function () {
       $scope.isAnswered = true;

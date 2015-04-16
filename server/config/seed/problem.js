@@ -22,18 +22,24 @@ var quest = {
   paragraphUpperBound: 7
 };
 
-var populateProblems = function(users) {
+var populateProblems = function (users) {
   var deferred = Q.defer();
-  Problem.find({}).remove(function () {
+  Problem.remove({}, function () {
     Problem.create(_.times(30, function (n) {
       return {
         questionId: n + 1,
         title: loremIpsum(title),
         question: loremIpsum(quest),
-        solvers: [users[n%users.length]],
+        solvers: [_.sample(users)._id],
         answer: 1.4
+      };
+    }), function (err) {
+      if (err) {
+        deferred.reject(err);
+      } else {
+        deferred.resolve(_.toArray(arguments).slice(1));
       }
-    }))
+    });
   });
 
   return deferred.promise;

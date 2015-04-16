@@ -10,8 +10,9 @@ exports.index = function (req, res) {
 
     if (err) return handleError(res, err);
     problems = _.map(problems, function(problem){
-      problem._doc.solvedBy = problem.solvers.length;
-      delete problem._doc.solvers;
+      problem = problem.toObject();
+      problem.solvedBy = problem.solvers.length;
+      delete problem.solvers;
       return problem;
     });
 
@@ -29,7 +30,7 @@ exports.index = function (req, res) {
 
 // Get a single problem
 exports.show = function (req, res) {
-  Problem.where({questionId: req.params.id}).findOne(function (err, problem) {
+  Problem.findOne({questionId: req.params.id}, function (err, problem) {
     if (err) {
       return handleError(res, err);
     }
@@ -55,7 +56,7 @@ exports.update = function (req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Problem.where({questionId: req.params.id}).findOne(function (err, problem) {
+  Problem.findOne({questionId: req.params.id},function (err, problem) {
     if (err) {
       return handleError(res, err);
     }
@@ -63,13 +64,11 @@ exports.update = function (req, res) {
       return res.send(404);
     }
 
-    var updated = _.merge(problem, req.body);
-    updated.save(function (err) {
+    problem.set(req.body);
+    problem.save(function (err) {
       if (err) {
         return handleError(res, err);
       }
-      problem._doc.solvedBy = problem.solvers.length;
-      delete problem._doc.solvers;
       return res.json(200, problem);
     });
   });
